@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+#
+# Small script to quickly set a default directory
+# for new shell instances. This can be useful 
+# when switching between active projects.
+#
+# Simply appends a "cd [directory]" line to the .bashrc file
+# Usage: ddir [directory] 
+#
+
+### Configurations
+BASHRC = os.path.join(os.getenv("HOME"), ".bashrc")
+FLAG = "###DDIR"
+###
+
+if len(sys.argv) != 2:
+    print "Usage: ddir [directory]"
+    sys.exit(0)
+
+dname = sys.argv[1]
+
+if not os.path.isdir(dname):
+    print "Not a directory"
+    sys.exit(1)
+
+if not os.path.isfile(BASHRC):
+    print "bashrc invalid"
+    sys.exit(1)
+
+path = os.path.abspath(dname)
+f = open(BASHRC, 'r')
+fr = f.read()
+f.close()
+
+cdline = "cd %s #%s" % (path, FLAG)
+
+#Replace flagged line with new default directory
+written = False
+flines = fr.split('\n')
+for i in range(0, len(flines)):
+    if flines[i].endswith(FLAG):
+        flines[i] = cdline
+        written = True
+
+#If the flag is not present, append to the end
+if not written:
+    flines.append(cdline)
+
+#Generate new bashrc
+f = open(BASHRC, 'w+')
+f.write('\n'.join(flines))
+f.close()
+print "%s updated" % BASHR
+

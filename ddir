@@ -54,5 +54,5 @@ if not written:
 f = open(BASHRC, 'w+')
 f.write('\n'.join(flines))
 f.close()
-print "%s updated" % BASHR
+print "%s updated" % BASHRC
 

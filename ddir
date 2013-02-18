@@ -36,7 +36,7 @@ f = open(BASHRC, 'r')
 fr = f.read()
 f.close()
 
-cdline = "cd %s #%s" % (path, FLAG)
+cdline = "cd \"%s\" #%s" % (path, FLAG)
 
 #Replace flagged line with new default directory
 written = False
